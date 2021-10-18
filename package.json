@@ -1,5 +1,5 @@
 {
-  "name": "ember-can",
+  "name": "@concordnow/ember-can",
   "version": "3.0.0",
   "description": "Simple authorization addon for Ember apps",
   "keywords": [

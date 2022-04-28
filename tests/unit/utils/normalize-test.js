@@ -43,4 +43,12 @@ module('Unit | Util | normalize', function () {
     assert.equal(norm.propertyName, 'comment');
     assert.equal(norm.abilityName, 'issue');
   });
+
+  test('returns subproperty as well', function (assert) {
+    let norm = normalize('edit posts:prop');
+
+    assert.equal(norm.subProperty, 'prop');
+    assert.equal(norm.propertyName, 'edit');
+    assert.equal(norm.abilityName, 'post');
+  });
 });

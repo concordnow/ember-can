@@ -7,16 +7,30 @@ module('Unit | Service | can', function (hooks) {
   setupTest(hooks);
 
   test('parse', function (assert) {
-    assert.expect(2);
+    assert.expect(4);
 
     let service = this.owner.lookup('service:can');
 
     assert.deepEqual(service.parse('manage members in project'), {
+      subProperty: undefined,
       propertyName: 'manageMembers',
       abilityName: 'project',
     });
 
     assert.deepEqual(service.parse('add tags to post'), {
+      subProperty: undefined,
+      propertyName: 'addTags',
+      abilityName: 'post',
+    });
+
+    assert.deepEqual(service.parse('manage members in project:prop'), {
+      subProperty: 'prop',
+      propertyName: 'manageMembers',
+      abilityName: 'project',
+    });
+
+    assert.deepEqual(service.parse('add tags to post:prop'), {
+      subProperty: 'prop',
       propertyName: 'addTags',
       abilityName: 'post',
     });
@@ -58,7 +72,7 @@ module('Unit | Service | can', function (hooks) {
     );
 
     assert.equal(
-      service.valueFor('touchThis', 'superModel', { yeah: 'Yeah!' }),
+      service.valueFor('touchThis in superModel', { yeah: 'Yeah!' }, 'Yaeh!'),
       'Yeah!'
     );
   });

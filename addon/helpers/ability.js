@@ -37,6 +37,10 @@ export default Helper.extend({
   },
 
   _removeAbilityObserver() {
+    if (this.propertyName === null) {
+      return;
+    }
+
     removeObserver(this, `ability.${this.propertyName}`, this, 'recompute');
     this.ability && this.ability.destroy();
     setProperties(this, { ability: null, propertyName: null });

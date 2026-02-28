@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
+import { render, clearRender } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { Ability } from 'ember-can';
 import { computed } from '@ember/object';
@@ -10,6 +10,27 @@ import { run } from '@ember/runloop';
 
 module('Integration | Helper | can', function (hooks) {
   setupRenderingTest(hooks);
+
+  module('null propertyName guard', function () {
+    test('it does not crash when _removeAbilityObserver runs before any observer is registered', async function (assert) {
+      assert.expect(2);
+
+      this.owner.register(
+        'ability:post',
+        Ability.extend({
+          canWrite: true,
+        })
+      );
+
+      await render(hbs`{{if (can "write post") "true" "false"}}`);
+      assert
+        .dom(this.element)
+        .hasText('true', 'renders without crash on initial compute');
+
+      await clearRender();
+      assert.ok(true, 'destroy completed without crash');
+    });
+  });
 
   module('classic class', function () {
     test('it works with custom property parser', async function (assert) {

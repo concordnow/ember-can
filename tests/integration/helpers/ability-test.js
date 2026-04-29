@@ -60,7 +60,7 @@ module('Integration | Helper | ability', function (hooks) {
         })
       );
 
-      await render(hbs`{{ability "write post:subProperty" model}}`);
+      await render(hbs`{{ability "write post:subProperty" this.model}}`);
       assert.dom(this.element).hasText('prop');
 
       this.set('model', { write: false });
@@ -88,7 +88,7 @@ module('Integration | Helper | ability', function (hooks) {
         })
       );
 
-      await render(hbs`{{ability "write post:subProperty" model}}`);
+      await render(hbs`{{ability "write post:subProperty" this.model}}`);
       assert.dom(this.element).hasText('prop');
 
       this.set('model', undefined);
@@ -114,7 +114,7 @@ module('Integration | Helper | ability', function (hooks) {
       );
 
       this.set('write', false);
-      await render(hbs`{{ability "write post:subProperty" write=write}}`);
+      await render(hbs`{{ability "write post:subProperty" write=this.write}}`);
       assert.dom(this.element).hasText('prop');
 
       this.set('write', true);
@@ -140,7 +140,7 @@ module('Integration | Helper | ability', function (hooks) {
       this.set('model', { write: false });
 
       await render(
-        hbs`{{ability "write post:subProperty" model write=this.write}}`
+        hbs`{{ability "write post:subProperty" this.model write=this.write}}`
       );
 
       assert.dom(this.element).hasText('prop');

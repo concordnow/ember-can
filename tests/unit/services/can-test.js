@@ -1,7 +1,7 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import { Ability } from 'ember-can';
-import { computed } from '@ember/object';
+import { reads } from '@ember/object/computed';
 
 module('Unit | Service | can', function (hooks) {
   setupTest(hooks);
@@ -67,7 +67,7 @@ module('Unit | Service | can', function (hooks) {
     this.owner.register(
       'ability:super-model',
       Ability.extend({
-        canTouchThis: computed.reads('model.yeah'),
+        canTouchThis: reads('model.yeah'),
       })
     );
 
@@ -85,7 +85,7 @@ module('Unit | Service | can', function (hooks) {
     this.owner.register(
       'ability:super-model',
       Ability.extend({
-        canTouchThis: computed.reads('model.yeah'),
+        canTouchThis: reads('model.yeah'),
       })
     );
 
@@ -100,7 +100,7 @@ module('Unit | Service | can', function (hooks) {
     this.owner.register(
       'ability:super-model',
       Ability.extend({
-        canTouchThis: computed.reads('model.yeah'),
+        canTouchThis: reads('model.yeah'),
       })
     );
 

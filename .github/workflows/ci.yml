@@ -7,7 +7,7 @@ on:
   pull_request:
 
 env:
-  NODE_VERSION: 12
+  NODE_VERSION: 16
 
 jobs:
   lint:
@@ -22,16 +22,13 @@ jobs:
         with:
           node-version: '${{ env.NODE_VERSION }}'
 
-      - name: Install latest npm
-        run: npm install -g npm@latest
-
       - name: Get package manager's global cache path
         id: global-cache-dir-path
         run: echo "::set-output name=dir::$(npm config get cache)"
 
       - name: Cache package manager's global cache and node_modules
         id: cache-dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: |
             ${{ steps.global-cache-dir-path.outputs.dir }}
@@ -61,16 +58,13 @@ jobs:
         with:
           node-version: '${{ env.NODE_VERSION }}'
 
-      - name: Install latest npm
-        run: npm install -g npm@latest
-
       - name: Get package manager's global cache path
         id: global-cache-dir-path
         run: echo "::set-output name=dir::$(npm config get cache)"
 
       - name: Cache package manager's global cache and node_modules
         id: cache-dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: |
             ${{ steps.global-cache-dir-path.outputs.dir }}
@@ -101,16 +95,13 @@ jobs:
         with:
           node-version: '${{ env.NODE_VERSION }}'
 
-      - name: Install latest npm
-        run: npm install -g npm@latest
-
       - name: Get package manager's global cache path
         id: global-cache-dir-path
         run: echo "::set-output name=dir::$(npm config get cache)"
 
       - name: Cache package manager's global cache and node_modules
         id: cache-dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: |
             ${{ steps.global-cache-dir-path.outputs.dir }}
@@ -135,18 +126,12 @@ jobs:
       fail-fast: false
       matrix:
         ember-try-scenario:
-          - ember-lts-3.20
-          - ember-lts-3.24
-          - ember-release
-          - ember-beta
-          - ember-default-with-jquery
-          - ember-classic
+          - ember-lts-4.4
+          - ember-lts-4.8
+          - ember-lts-4.12
           - embroider-safe
           - embroider-optimized
         allow-failure: [false]
-        include:
-          - ember-try-scenario: ember-canary
-            allow-failure: true
 
     steps:
     - uses: actions/checkout@v2
@@ -157,16 +142,13 @@ jobs:
       with:
         node-version: '${{ env.NODE_VERSION }}'
 
-    - name: Install latest npm
-      run: npm install -g npm@latest
-
     - name: Get package manager's global cache path
       id: global-cache-dir-path
-      run: echo "::set-output name=dir::$(pm config get cache)"
+      run: echo "::set-output name=dir::$(npm config get cache)"
 
     - name: Cache package manager's global cache and node_modules
       id: cache-dependencies
-      uses: actions/cache@v2
+      uses: actions/cache@v4
       with:
         path: |
           ${{ steps.global-cache-dir-path.outputs.dir }}

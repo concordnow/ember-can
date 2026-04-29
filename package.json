@@ -1,6 +1,6 @@
 {
   "name": "ember-can",
-  "version": "3.2.0",
+  "version": "3.2.0-alpha.3",
   "description": "Simple authorization addon for Ember apps",
   "keywords": [
     "ember-addon",
@@ -95,10 +95,15 @@
     "qunit": "^2.16.0",
     "qunit-dom": "^1.6.0",
     "release-it": "14.10.0",
-    "release-it-lerna-changelog": "3.1.0"
+    "release-it-lerna-changelog": "3.1.0",
+    "testem": "~3.18.0",
+    "webpack": "^5.0.0"
   },
   "engines": {
     "node": "12.* || >= 14"
+  },
+  "ember": {
+    "edition": "octane"
   },
   "ember-addon": {
     "configPath": "tests/dummy/config"

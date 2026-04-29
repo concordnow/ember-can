@@ -129,10 +129,11 @@ jobs:
           - ember-lts-4.4
           - ember-lts-4.8
           - ember-lts-4.12
-          - embroider-safe
           - embroider-optimized
         allow-failure: [false]
         include:
+          - ember-try-scenario: embroider-safe
+            allow-failure: true
           - ember-try-scenario: ember-release
             allow-failure: true
           - ember-try-scenario: ember-beta

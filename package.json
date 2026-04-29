@@ -53,9 +53,10 @@
     }
   },
   "dependencies": {
+    "ember-auto-import": "^2.0.2",
     "ember-cli-babel": "^7.26.6",
     "ember-cli-htmlbars": "^5.7.1",
-    "ember-inflector": "^4.0.2"
+    "ember-inflector": "^5.0.2"
   },
   "devDependencies": {
     "@ember/optional-features": "^2.0.0",
@@ -65,7 +66,6 @@
     "@glimmer/tracking": "^1.0.4",
     "babel-eslint": "^10.1.0",
     "broccoli-asset-rev": "3.0.0",
-    "ember-auto-import": "^2.0.2",
     "ember-cli": "~3.27.0",
     "ember-cli-dependency-checker": "3.2.0",
     "ember-cli-inject-live-reload": "2.1.0",
@@ -78,7 +78,7 @@
     "ember-page-title": "^6.2.2",
     "ember-qunit": "^5.1.4",
     "ember-resolver": "^8.0.2",
-    "ember-source": "~3.27.5",
+    "ember-source": "https://s3.amazonaws.com/builds.emberjs.com/release/shas/c261c681447999c4c53a5371d1b1226c0fbd4fd5.tgz",
     "ember-source-channel-url": "^3.0.0",
     "ember-template-lint": "^3.5.0",
     "ember-try": "1.4.0",

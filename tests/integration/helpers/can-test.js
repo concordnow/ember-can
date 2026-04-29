@@ -125,7 +125,9 @@ module('Integration | Helper | can', function (hooks) {
       );
 
       this.set('write', false);
-      await render(hbs`{{if (can "write post" write=this.write) "true" "false"}}`);
+      await render(
+        hbs`{{if (can "write post" write=this.write) "true" "false"}}`
+      );
       assert.dom(this.element).hasText('false');
 
       this.set('write', true);

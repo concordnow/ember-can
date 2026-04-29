@@ -54,7 +54,9 @@ module('Integration | Helper | cannot', function (hooks) {
     );
 
     this.set('write', false);
-    await render(hbs`{{if (cannot "write post" write=this.write) "true" "false"}}`);
+    await render(
+      hbs`{{if (cannot "write post" write=this.write) "true" "false"}}`
+    );
     assert.dom(this.element).hasText('true');
 
     this.set('write', true);

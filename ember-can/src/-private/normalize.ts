@@ -4,14 +4,18 @@ import { singularize } from 'ember-inflector';
 const stopWords = ['of', 'in', 'for', 'to', 'from', 'on', 'as'];
 
 /**
- * Normalize string into an object with extracted propertyName and abilityName
- * eg. for 'create projects in account' -> `{ propertyName: 'createProjects', abilityName: 'account'}`
+ * Normalize string into an object with extracted propertyName, abilityName and optional subProperty
+ * eg. for 'create projects in account' -> `{ propertyName: 'createProjects', abilityName: 'account', subProperty: undefined }`
+ * eg. for 'edit posts:reason'         -> `{ propertyName: 'edit',           abilityName: 'post',    subProperty: 'reason' }`
  * @private
  * @param  {String} string eg. 'create projects in account'
- * @return {Object}        extracted propertyName and abilityName
+ * @return {Object}        extracted propertyName, abilityName and subProperty
  */
 export default function (string: string) {
-  const parts = string.split(' ');
+  const [abilityString, subProperty] = string
+    .split(':')
+    .map((s) => s.trim()) as [string, string | undefined];
+  const parts = abilityString.split(' ');
   const abilityName = singularize(parts.pop() as string);
   const last = parts[parts.length - 1];
 
@@ -21,5 +25,5 @@ export default function (string: string) {
 
   const propertyName = camelize(parts.join(' '));
 
-  return { propertyName, abilityName };
+  return { propertyName, abilityName, subProperty };
 }

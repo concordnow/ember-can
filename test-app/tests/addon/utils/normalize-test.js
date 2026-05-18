@@ -51,4 +51,22 @@ module('Addon | Util | normalize', function (hooks) {
     assert.strictEqual(norm.propertyName, 'comment');
     assert.strictEqual(norm.abilityName, 'issue');
   });
+
+  test('extracts subProperty when provided', function (assert) {
+    const ability = this.owner.lookup('service:abilities');
+
+    let norm = ability.parse('edit posts:reason');
+
+    assert.strictEqual(norm.propertyName, 'edit');
+    assert.strictEqual(norm.abilityName, 'post');
+    assert.strictEqual(norm.subProperty, 'reason');
+  });
+
+  test('subProperty is undefined when not provided', function (assert) {
+    const ability = this.owner.lookup('service:abilities');
+
+    let norm = ability.parse('edit post');
+
+    assert.strictEqual(norm.subProperty, undefined);
+  });
 });

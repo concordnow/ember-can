@@ -87,11 +87,79 @@ module('Unit | Service | abilities', function (hooks) {
     assert.deepEqual(service.parse('manage members in project'), {
       propertyName: 'manageMembers',
       abilityName: 'project',
+      subProperty: undefined,
     });
 
     assert.deepEqual(service.parse('add tags to post'), {
       propertyName: 'addTags',
       abilityName: 'post',
+      subProperty: undefined,
     });
+
+    assert.deepEqual(service.parse('manage members in project:reason'), {
+      propertyName: 'manageMembers',
+      abilityName: 'project',
+      subProperty: 'reason',
+    });
+  });
+
+  test('can unwraps object results via the can key', function (assert) {
+    this.owner.register(
+      'ability:post',
+      class extends Ability {
+        get canEdit() {
+          return { can: true, reason: 'allowed' };
+        }
+      },
+    );
+
+    let service = this.owner.lookup('service:abilities');
+
+    assert.true(service.can('edit post'));
+  });
+
+  test('cannot unwraps object results via the can key', function (assert) {
+    this.owner.register(
+      'ability:post',
+      class extends Ability {
+        get canEdit() {
+          return { can: false, reason: 'nope' };
+        }
+      },
+    );
+
+    let service = this.owner.lookup('service:abilities');
+
+    assert.true(service.cannot('edit post'));
+  });
+
+  test('can throws if object result has no can key', function (assert) {
+    this.owner.register(
+      'ability:post',
+      class extends Ability {
+        get canEdit() {
+          return { reason: 'whoops' };
+        }
+      },
+    );
+
+    let service = this.owner.lookup('service:abilities');
+
+    assert.throws(() => service.can('edit post'));
+  });
+
+  test('can forbids :subProperty syntax', function (assert) {
+    this.owner.register(
+      'ability:post',
+      class extends Ability {
+        get canEdit() {
+          return { can: true, reason: 'ok' };
+        }
+      },
+    );
+
+    let service = this.owner.lookup('service:abilities');
+
+    assert.throws(() => service.can('edit post:reason'));
   });
 });

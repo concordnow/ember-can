@@ -82,8 +82,23 @@ export default class AbilitiesService extends Service {
     model?: unknown,
     properties?: Record<string, unknown>,
   ): boolean {
-    const { propertyName, abilityName } = this.parse(abilityString);
-    return !!this.valueFor(propertyName, abilityName, model, properties);
+    const { propertyName, abilityName, subProperty } =
+      this.parse(abilityString);
+
+    assert(
+      `Using 'abilityString:subProperty' syntax is forbidden in can and cannot helpers, use ability helper instead`,
+      !subProperty,
+    );
+
+    const result = this.valueFor(propertyName, abilityName, model, properties);
+    if (typeof result === 'object' && result !== null) {
+      assert(
+        `Ability property ${propertyName} in '${abilityName}' is an object and must have a 'can' property`,
+        'can' in result,
+      );
+      return !!(result as { can: unknown }).can;
+    }
+    return !!result;
   }
 
   /**

@@ -119,6 +119,7 @@
     "type": "addon",
     "main": "addon-main.cjs",
     "app-js": {
+      "./helpers/ability.js": "./dist/_app_/helpers/ability.js",
       "./helpers/can.js": "./dist/_app_/helpers/can.js",
       "./helpers/cannot.js": "./dist/_app_/helpers/cannot.js",
       "./services/abilities.js": "./dist/_app_/services/abilities.js"

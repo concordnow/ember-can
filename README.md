@@ -242,6 +242,21 @@ export default class PostAbility extends Ability {
 Using the `:subProperty` suffix with `can` or `cannot` throws — those helpers
 always return a boolean. Use `ability` whenever you want the underlying value.
 
+#### How named arguments reach the ability
+
+The third positional argument of `valueFor` / the named arguments passed to
+`{{ability}}`, `{{can}}`, and `{{cannot}}` reach the ability through **two**
+channels:
+
+1. **As instance state** — they are merged into the object passed to
+   `AbilityFactory.create({ model, ...properties })`, so getter-style
+   abilities can read them via `this.someProp`.
+2. **As a method argument** — method-style abilities receive them as the
+   second argument: `canEdit(model, properties)`.
+
+Getters only see channel 1; methods see both. Pick one style per ability and
+stay consistent — mixing them is legal but easy to confuse.
+
 
 ## Abilities
 

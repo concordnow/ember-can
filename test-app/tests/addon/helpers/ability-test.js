@@ -6,6 +6,8 @@ import { Ability } from 'ember-can';
 import Service from '@ember/service';
 import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
+// eslint-disable-next-line ember/no-classic-classes
+import EmberObject, { get, set } from '@ember/object';
 
 module('Addon | Helper | ability', function (hooks) {
   setupRenderingTest(hooks);
@@ -85,5 +87,58 @@ module('Addon | Helper | ability', function (hooks) {
     await settled();
 
     assert.dom(this.element).hasText('allowed');
+  });
+
+  test('reacts to classic EmberObject model mutations', async function (assert) {
+    this.owner.register(
+      'ability:post',
+      class extends Ability {
+        get canEdit() {
+          // eslint-disable-next-line ember/no-get
+          return get(this.model, 'editable');
+        }
+      },
+    );
+
+    const model = EmberObject.create({ editable: false });
+    this.set('model', model);
+
+    await render(hbs`{{ability "edit post" this.model}}`);
+    assert.dom(this.element).hasText('false');
+
+    set(model, 'editable', true);
+    await settled();
+
+    assert.dom(this.element).hasText('true');
+  });
+
+  module('object-result unwrap through {{can}} / {{cannot}}', function () {
+    test('{{can}} unwraps a truthy object result', async function (assert) {
+      this.owner.register(
+        'ability:post',
+        class extends Ability {
+          get canEdit() {
+            return { can: true, reason: 'owner' };
+          }
+        },
+      );
+
+      await render(hbs`{{if (can "edit post") "allowed" "denied"}}`);
+      assert.dom(this.element).hasText('allowed');
+    });
+
+    test('{{cannot}} unwraps a falsy object result', async function (assert) {
+      this.owner.register(
+        'ability:post',
+        class extends Ability {
+          get canEdit() {
+            return { can: false, reason: 'not-owner' };
+          }
+        },
+      );
+
+      await render(hbs`{{if (cannot "edit post") "blocked" "open"}}`);
+      assert.dom(this.element).hasText('blocked');
+    });
   });
 });
